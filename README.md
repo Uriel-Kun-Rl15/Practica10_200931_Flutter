@@ -42,7 +42,7 @@ La barra de navegación inferior contiene tres elementos:
 
 En esta Practica del proyeto Hicimos lo soguiente:
 
-MEDIA.DART:
+### `MEDIA.DART:`
 En este archivo, definimos la clase Media, que representa un medio, como una película o programa de televisión. Los atributos de la clase incluyen:
 
 id: Un identificador único para el medio.
@@ -57,7 +57,7 @@ Además, defines varios métodos en la clase Media, como getPosterUrl(), getBack
 
 La clase Media también tiene un constructor de fábrica llamado factory Media, que se utiliza para crear instancias de Media a partir de un mapa JSON.
 
-MEDIA_LIST_ITEM.DART:
+### `MEDIA_LIST_ITEM.DART:`
 En este archivo, definimos la clase MediaListItem, que es un widget de Flutter utilizado para representar elementos individuales de la lista de medios en la página de inicio. Aquí hay una explicación de cómo funciona:
 
 En el constructor de MediaListItem, se pasa un objeto Media como argumento.
