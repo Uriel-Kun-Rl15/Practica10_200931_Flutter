@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
             trailing: Image.asset('assets/2.png',
                 width: 45, height: 45), // Icono de películas
             onTap: () {
-              _changeMediaType(MediaType.movie);
+              _changeMediaType(MediaType.show);
               Navigator.of(context).pop();
             }, // Icono de películas
           ),
