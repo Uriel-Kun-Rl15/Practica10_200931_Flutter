@@ -19,10 +19,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Define una clase que extiende State y representa el estado interno de Home.
 
-  final MediaProvider movieProvider =new MediaPrvider();
-  final MediaProvider showProvider =new ShowProvider();
+  final MediaProvider movieProvider = new MediaPrvider();
+  final MediaProvider showProvider = new ShowProvider();
 
-  MediaType mediaType= MediaType.movie;
+  MediaType mediaType = MediaType.movie;
   // Estilo de fuente personalizado
   final TextStyle customTextStyle = TextStyle(
     fontFamily: 'MiFuente', // Nombre de la fuente definido en pubspec.yaml
@@ -84,15 +84,14 @@ class _HomeState extends State<Home> {
               style:
                   customTextStyle, // Aplica el estilo de fuente personalizado
             ),
-            selected: mediaType== MediaType.movie,
-            trailing: Image.asset('assets/1.png',
-                width: 45, height: 45), 
-                
-                onTap: (){
-                  _changeMediaType(MediaType.movie);
-                  Navigator.of(context).pop();
-                },// Icono de películas
-          ), 
+            selected: mediaType == MediaType.movie,
+            trailing: Image.asset('assets/1.png', width: 45, height: 45),
+
+            onTap: () {
+              _changeMediaType(MediaType.movie);
+              Navigator.of(context).pop();
+            }, // Icono de películas
+          ),
 
           // Separador en el menú
           new Divider(
@@ -108,6 +107,10 @@ class _HomeState extends State<Home> {
             ),
             trailing: Image.asset('assets/2.png',
                 width: 45, height: 45), // Icono de películas
+            onTap: () {
+              _changeMediaType(MediaType.movie);
+              Navigator.of(context).pop();
+            }, // Icono de películas
           ),
           // Separador en el menú
           new Divider(
@@ -129,9 +132,7 @@ class _HomeState extends State<Home> {
           ),
         ]),
       ),
-      body: PageView(
-        children: <Widget>[new MediaList(movieProvider)],
-      ),
+      body: PageView(children: _getMediaList()),
       bottomNavigationBar: new BottomNavigationBar(
         // Barra de navegación inferior (BottomNavigationBar) con iconos y etiquetas
         items: _obtenerIconos(),
@@ -157,22 +158,17 @@ class _HomeState extends State<Home> {
     ];
   }
 
-  void _changeMediaType(MediaType type){
-    if(mediaType != type){
+  void _changeMediaType(MediaType type) {
+    if (mediaType != type) {
       setState(() {
-        mediaType =type;
+        mediaType = type;
       });
     }
   }
-  List<Widget> _getMediaList(){
-    return (mediaType == MediaType.movie) ?
-    <Widget>[
-      new MediaList(movieProvider)
-    ]:
-    <Widget>[
-      new MediaList(showProvider)
-    ];
+
+  List<Widget> _getMediaList() {
+    return (mediaType == MediaType.movie)
+        ? <Widget>[new MediaList(movieProvider)]
+        : <Widget>[new MediaList(showProvider)];
   }
 }
-
-

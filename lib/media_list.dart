@@ -27,9 +27,13 @@ class _MediaListState extends State<MediaList> {
   }
   @override
   void didUpdateWidget(MediaList oldWidget){
+    if(oldWidget.provider.runtimeType != widget.provider.runtimeType){
+      _media = [];
+      loadMedia();
+    }
     super.didUpdateWidget(oldWidget);
   }
-  
+
   void loadMedia() async {
     var media =await widget.provider.fetchMedia();
     setState(() {
