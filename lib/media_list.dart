@@ -4,10 +4,15 @@
 // Docente: MTI. Marco Antonio Ramirez Hernandez
 import 'package:flutter/material.dart'; // Importa la biblioteca Flutter para construir interfaces de usuario.
 import 'package:movieapp_20091/common/HttpHandler.dart'; // Importa la clase HttpHandler desde un archivo llamado HttpHandler.dart.
+import 'package:movieapp_20091/media_detail.dart';
 import 'package:movieapp_20091/model/Media.dart'; // Importa la clase Media desde un archivo llamado Media.dart.
 import 'package:movieapp_20091/media_list_item.dart';
+import 'package:movieapp_20091/media_detail.dart';
+import 'package:movieapp_20091/common/MediaProvider.dart';
 
 class MediaList extends StatefulWidget {
+  final MediaProvider provider;
+  MediaList(this.provider);
   @override
   _MediaListState createState() =>
       new _MediaListState(); // Define una clase que extiende StatefulWidget y proporciona un método para crear su estado interno.
@@ -18,13 +23,17 @@ class _MediaListState extends State<MediaList> {
   @override
   void initState() {
     super.initState();
-    loadMovies();
+    loadMedia();
   }
-
-  void loadMovies() async {
-    var movies = await HttpHandler().fetchMovies();
+  @override
+  void didUpdateWidget(MediaList oldWidget){
+    super.didUpdateWidget(oldWidget);
+  }
+  
+  void loadMedia() async {
+    var media =await widget.provider.fetchMedia();
     setState(() {
-      _media.addAll(movies);
+      _media.addAll(media);
     });
   }
 
@@ -35,7 +44,15 @@ class _MediaListState extends State<MediaList> {
       child: new ListView.builder(
         itemCount: _media.length,
         itemBuilder: (BuildContext context, int index) {
-          return new MediaListItem(_media[index]);
+          return new ElevatedButton(
+            child: new MediaListItem(_media[index]),
+            onPressed: () {
+              Navigator.push(context, new MaterialPageRoute(builder: (context) {
+                return new MediaDetail(_media[index]);
+              }));
+            },
+          );
+          // return new MediaListItem(_media[index]);
         },
       ),
     );

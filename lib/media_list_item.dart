@@ -28,7 +28,7 @@ class MediaListItem extends StatelessWidget {
                 right: 0.0,
                 child: new Container(
                   decoration: new BoxDecoration(
-                    color: Color.fromARGB(255, 22, 237, 105).withOpacity(0.8),
+                    color: Color.fromARGB(255, 31, 32, 31).withOpacity(0.8),
                   ),
                   constraints: new BoxConstraints.expand(
                     height: 85.0,

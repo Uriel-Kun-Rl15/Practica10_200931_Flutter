@@ -5,6 +5,8 @@
 import 'package:flutter/material.dart'; // Importa la biblioteca Flutter para construir interfaces de usuario.
 import 'package:movieapp_20091/common/HttpHandler.dart'; // Importa la clase HttpHandler desde un archivo llamado HttpHandler.dart.
 import 'package:movieapp_20091/media_list.dart';
+import 'package:movieapp_20091/common/MediaProvider.dart';
+import 'package:movieapp_20091/model/Media.dart';
 
 class Home extends StatefulWidget {
   const Home(
@@ -17,6 +19,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Define una clase que extiende State y representa el estado interno de Home.
 
+  final MediaProvider movieProvider =new MediaPrvider();
+  final MediaProvider showProvider =new ShowProvider();
+
+  MediaType mediaType= MediaType.movie;
   // Estilo de fuente personalizado
   final TextStyle customTextStyle = TextStyle(
     fontFamily: 'MiFuente', // Nombre de la fuente definido en pubspec.yaml
@@ -78,9 +84,15 @@ class _HomeState extends State<Home> {
               style:
                   customTextStyle, // Aplica el estilo de fuente personalizado
             ),
+            selected: mediaType== MediaType.movie,
             trailing: Image.asset('assets/1.png',
-                width: 45, height: 45), // Icono de películas
-          ),
+                width: 45, height: 45), 
+                
+                onTap: (){
+                  _changeMediaType(MediaType.movie);
+                  Navigator.of(context).pop();
+                },// Icono de películas
+          ), 
 
           // Separador en el menú
           new Divider(
@@ -118,7 +130,7 @@ class _HomeState extends State<Home> {
         ]),
       ),
       body: PageView(
-        children: <Widget>[new MediaList()],
+        children: <Widget>[new MediaList(movieProvider)],
       ),
       bottomNavigationBar: new BottomNavigationBar(
         // Barra de navegación inferior (BottomNavigationBar) con iconos y etiquetas
@@ -144,4 +156,23 @@ class _HomeState extends State<Home> {
       ),
     ];
   }
+
+  void _changeMediaType(MediaType type){
+    if(mediaType != type){
+      setState(() {
+        mediaType =type;
+      });
+    }
+  }
+  List<Widget> _getMediaList(){
+    return (mediaType == MediaType.movie) ?
+    <Widget>[
+      new MediaList(movieProvider)
+    ]:
+    <Widget>[
+      new MediaList(showProvider)
+    ];
+  }
 }
+
+

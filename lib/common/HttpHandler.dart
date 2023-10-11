@@ -10,9 +10,14 @@ import 'package:movieapp_20091/common/Constants.dart'; // Importa un archivo Con
 import 'package:movieapp_20091/model/Media.dart'; // Importa la definición de la clase Media.
 
 class HttpHandler {
+  static final _httHandler = new HttpHandler();
   final String _baseUrl = "api.themoviedb.org"; // Define la URL base de la API.
   final String _language =
       "es-MX"; // Define el lenguaje deseado para las respuestas.
+
+  static HttpHandler get(){
+    return _httHandler;
+  }
 
   // Define una función asincrónica para obtener datos JSON desde una URI.
   Future<dynamic> getJson(Uri uri) async {
@@ -33,6 +38,19 @@ class HttpHandler {
         }); // Parámetros de la solicitud.
     // Llama a la función getJson para obtener datos y mapearlos en objetos de tipo Media.
     return getJson(uri).then(((data) =>
-        data['results'].map<Media>((item) => new Media(item)).toList()));
+        data['results'].map<Media>((item) => new Media(item, MediaType.movie)).toList()));
+  }
+  Future<List<Media>> fetchShow() {
+    var uri = new Uri.https(
+        _baseUrl,
+        "3/tv/popular", 
+        {
+          'api_key': API_KEY,
+          'page': "1",
+          'languaje': _language
+        }); // Parámetros de la solicitud.
+    // Llama a la función getJson para obtener datos y mapearlos en objetos de tipo Media.
+    return getJson(uri).then(((data) =>
+        data['results'].map<Media>((item) => new Media(item, MediaType.show)).toList()));
   }
 }

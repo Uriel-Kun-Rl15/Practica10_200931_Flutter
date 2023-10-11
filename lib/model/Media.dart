@@ -4,6 +4,7 @@
 // Docente: MTI. Marco Antonio Ramirez Hernandez
 import 'dart:convert'; // Importa la biblioteca para codificar y decodificar JSON.
 import 'package:movieapp_20091/common/Util.dart'; // Importa la clase Media desde un archivo llamado Media.dart.
+import 'package:movieapp_20091/common/MediaProvider.dart'; // Importa la clase Media desde un archivo llamado Media.dart.
 
 class Media {
   int id;
@@ -18,26 +19,32 @@ class Media {
   String getPosterUrl() => getMediumPictureUrl(posterPath);
   String getBackDropUrl() => getLargePictureUrl(backdropPath);
   String getGenres() => getGenreValues(genreIds);
-  int getReleaseYear() {
-    if (releaseDate == null || releaseDate == "") return 0;
+
+  int getRelaseYear() {
+    if (releaseDate == null || releaseDate == "") {
+      return 0;
+    }
     return DateTime.parse(releaseDate).year;
   }
 
-  factory Media(Map jsonMap) {
+  factory Media(Map jsonMap, MediaType mediaType) {
     try {
-      return new Media.deserealize(jsonMap);
+      return new Media.deserialize(jsonMap, mediaType);
     } catch (ex) {
       throw ex;
     }
   }
 
-  Media.deserealize(Map json)
+  Media.deserialize(Map json, MediaType mediaType)
       : id = json["id"].toInt(),
         voteAverage = json["vote_average"].toDouble(),
         title = json["title"],
         posterPath = json["poster_path"] ?? "",
         backdropPath = json["backdrop_path"] ?? "",
         overview = json["overview"],
-        releaseDate = json["release_date"],
+        releaseDate = json[mediaType == MediaType.movie ?
+        "release_date" : "first_air_date"],
         genreIds = json["genre_ids"].toList();
 }
+
+enum MediaType {movie, show}
